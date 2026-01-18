@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FORGE PA</title>
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+<div class="container">
+  <h1>FORGE PA</h1>
+
+  <div id="chat"></div>
+
+  <div class="controls">
+    <input id="input" placeholder="Command or question">
+    <button onclick="send()">Send</button>
+    <button onclick="voice()">🎤</button>
+    <button onclick="speak()">🔊</button>
+  </div>
+
+  <h3>Tasks</h3>
+  <ul id="tasks"></ul>
+
+  <h3>Kill Time</h3>
+  <div class="games">
+    <button onclick="startGame('snake')">Snake</button>
+    <button onclick="startGame('reaction')">Reaction</button>
+    <button onclick="startGame('shooter')">Mini Shooter</button>
+  </div>
+
+  <canvas id="canvas" width="320" height="320"></canvas>
+
+  <footer>
+    © 2026 Eniayekan Promise. All rights reserved.
+  </footer>
+</div>
+
+<script src="script.js"></script>
+</body>
+    </html>
