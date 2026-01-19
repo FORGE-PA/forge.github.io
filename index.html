@@ -48,6 +48,7 @@ body::after{
 nav{
   display:flex;
   justify-content:space-between;
+  align-items:center;
   padding:20px 40px;
   background:rgba(0,0,0,.6);
 }
@@ -66,9 +67,13 @@ nav{
   50%{text-shadow:0 0 12px rgba(255,122,24,.35);}
 }
 
+.nav-links{
+  display:flex;
+  gap:25px; /* spread links nicely */
+}
+
 .nav-links a{
-  margin-left:15px;
-  padding:10px 20px;
+  padding:10px 18px;
   text-decoration:none;
   color:#fff;
   position:relative;
@@ -131,6 +136,7 @@ footer{text-align:center;padding:20px;opacity:.6}
     <a href="tasks.html">Tasks</a>
     <a href="games.html">Games</a>
     <a href="upgrade.html">Upgrade</a>
+    <a href="contact.html">Contact</a>
   </div>
 </nav>
 
