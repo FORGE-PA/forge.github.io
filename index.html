@@ -1,155 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Forge PA — Home</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi-Version App Prototype</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Roboto', sans-serif; }
+    body { background:#f2f2f2; color:#333; line-height:1.6; }
+    header { background:#1a1a1a; color:#fff; text-align:center; padding:20px 0; }
+    header h1 { font-size:2rem; margin-bottom:5px; }
+    header p { font-size:1rem; }
+    nav { display:flex; justify-content:center; gap:30px; margin:20px 0; }
+    nav a { text-decoration:none; color:#1a1a1a; font-weight:600; }
+    nav a:hover { color:#007BFF; }
+    section { max-width:1000px; margin:20px auto; padding:20px; background:#fff; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); }
+    section h2 { color:#007BFF; margin-bottom:15px; }
+    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; margin-top:20px; }
+    .card { background:#e6f0ff; padding:20px; border-radius:10px; box-shadow:0 3px 6px rgba(0,0,0,0.1); }
+    .card h3 { color:#004080; margin-bottom:10px; }
+    .card ul { list-style:circle inside; }
+    footer { text-align:center; padding:15px; margin-top:30px; background:#1a1a1a; color:#fff; border-top:3px solid #007BFF; }
 
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap" rel="stylesheet">
-
-<style>
-:root{
-  --ember:#ff7a18;
-  --light:#d0d4d8;
-}
-
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Oswald',sans-serif;}
-
-body{
-  color:var(--light);
-  min-height:100vh;
-  background:
-    linear-gradient(rgba(0,0,0,.8),rgba(0,0,0,.9)),
-    url("https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/94b8a6aaad0fe142d54940387a077d38a060fba1/steel-furnace.jpg") center/cover fixed no-repeat;
-  overflow-x:hidden;
-  position:relative;
-}
-
-/* FLOATING EMBERS */
-body::after{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:
-    radial-gradient(circle at 20% 80%, rgba(255,122,24,.15) 0 2px, transparent 3px),
-    radial-gradient(circle at 70% 30%, rgba(255,122,24,.12) 0 2px, transparent 3px),
-    radial-gradient(circle at 40% 10%, rgba(255,122,24,.1) 0 2px, transparent 3px);
-  animation:embers 12s linear infinite;
-  pointer-events:none;
-  z-index:-2;
-}
-
-@keyframes embers{
-  from{background-position:0 0,0 0,0 0;}
-  to{background-position:0 -400px,0 -300px,0 -500px;}
-}
-
-/* NAVBAR */
-nav{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:20px 40px;
-  background:rgba(0,0,0,.6);
-}
-
-.logo{
-  font-size:28px;
-  letter-spacing:4px;
-  font-weight:600;
-  position:relative;
-  animation:heatPulse 3s infinite ease-in-out;
-  color:#d0d4d8;
-}
-
-@keyframes heatPulse{
-  0%,100%{text-shadow:0 0 0 rgba(255,122,24,0);}
-  50%{text-shadow:0 0 12px rgba(255,122,24,.35);}
-}
-
-.nav-links{
-  display:flex;
-  gap:25px; /* spread links nicely */
-}
-
-.nav-links a{
-  padding:10px 18px;
-  text-decoration:none;
-  color:#fff;
-  position:relative;
-  background:url("https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/94b8a6aaad0fe142d54940387a077d38a060fba1/steel-nav.jpg") center/cover;
-  border-radius:6px;
-  overflow:hidden;
-}
-
-.nav-links a:active::after{
-  content:"";
-  position:absolute;
-  inset:-2px;
-  border-radius:8px;
-  border:2px solid var(--ember);
-  animation:sparkRing .35s linear;
-}
-
-@keyframes sparkRing{to{opacity:0}}
-
-/* HERO BOX */
-.hero{
-  padding:80px;
-  max-width:750px;
-}
-
-.hero h1{font-size:56px;line-height:1.1;}
-.hero p{margin:25px 0;line-height:1.7;}
-
-button{
-  padding:16px 36px;
-  background:#222;
-  color:#fff;
-  border:none;
-  cursor:pointer;
-  position:relative;
-  overflow:hidden;
-  border-radius:8px;
-}
-
-button:active::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:radial-gradient(circle,var(--ember),transparent 70%);
-  animation:burst .3s;
-}
-
-@keyframes burst{to{opacity:0}}
-
-footer{text-align:center;padding:20px;opacity:.6}
-</style>
-
+    /* Feature sections */
+    .feature { margin-top:15px; }
+    button { padding:8px 15px; margin-top:5px; border:none; border-radius:5px; cursor:pointer; background:#007BFF; color:#fff; }
+    button:hover { background:#0056b3; }
+    input, select, textarea { padding:5px; margin:5px 0; width:100%; border-radius:5px; border:1px solid #ccc; }
+  </style>
 </head>
 <body>
+
+<header>
+  <h1>Multi-Version App Prototype</h1>
+  <p>Explore functional features of all versions</p>
+</header>
+
 <nav>
-  <div class="logo">FORGE&nbsp;PA</div>
-  <div class="nav-links">
-    <a href="index.html">Home</a>
-    <a href="assistant.html">Assistant</a>
-    <a href="tasks.html">Tasks</a>
-    <a href="games.html">Games</a>
-    <a href="upgrade.html">Upgrade</a>
-    <a href="contact.html">Contact</a>
-  </div>
+  <a href="#light">Light Version</a>
+  <a href="#main">Main Version</a>
+  <a href="#boss">Boss Elite Edition</a>
 </nav>
 
-<section class="hero">
-  <h1>DISCIPLINE.<br>CONTROL.<br>EXECUTION.</h1>
-  <p>
-    Forge PA is a personal assistant built to enforce focus, structure, and execution.  
-    No distractions, no noise. Only precise, controlled action in business and personal tasks.  
-    Plan, schedule, and act — efficiently.
-  </p>
-  <button>Activate Assistant</button>
+<!-- Light Version -->
+<section id="light">
+  <h2>Light Version</h2>
+  <p>Simple, basic interface. Core features only.</p>
+  <div class="cards">
+    <div class="card">
+      <h3>Set an Alarm</h3>
+      <div class="feature">
+        <input type="time" id="lightAlarm">
+        <button onclick="setAlarm('lightAlarm')">Set Alarm</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Mini Game</h3>
+      <div class="feature">
+        <button onclick="alert('Mini game placeholder for Light Version')">Play Game</button>
+      </div>
+    </div>
+  </div>
 </section>
 
-<footer>© 2026 Eniayekan Promise</footer>
+<!-- Main Customized Version -->
+<section id="main">
+  <h2>Main Customized Version</h2>
+  <p>Professional version with productivity and entertainment features.</p>
+  <div class="cards">
+    <div class="card">
+      <h3>Schedule Call</h3>
+      <div class="feature">
+        <input type="text" id="callName" placeholder="Enter Name">
+        <input type="time" id="callTime">
+        <button onclick="scheduleCall()">Schedule Call</button>
+      </div>
+      <ul id="callList"></ul>
+    </div>
+    <div class="card">
+      <h3>Play Game</h3>
+      <div class="feature">
+        <button onclick="alert('Adventure Game Placeholder')">Play Adventure</button>
+        <button onclick="alert('CODM-style Game Placeholder')">Play CODM-style Game</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Translator (Text → Speech)</h3>
+      <div class="feature">
+        <textarea id="translateText" placeholder="Type text here..."></textarea>
+        <button onclick="speakText()">Speak</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Boss Elite Edition -->
+<section id="boss">
+  <h2>Boss Elite Edition</h2>
+  <p>Premium professional version with enhanced features.</p>
+  <div class="cards">
+    <div class="card">
+      <h3>Enhanced Productivity</h3>
+      <div class="feature">
+        <input type="text" id="bossTask" placeholder="Enter Task">
+        <button onclick="alert('Task "'+document.getElementById('bossTask').value+'" added!')">Add Task</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Business-style Games</h3>
+      <div class="feature">
+        <button onclick="alert('Business Strategy Game Placeholder')">Play Game</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Translator & Voice</h3>
+      <div class="feature">
+        <textarea id="bossTranslateText" placeholder="Type text here..."></textarea>
+        <button onclick="speakBossText()">Speak</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  &copy; 2026 Multi-Version App | Prototype by Promise
+</footer>
+
+<script>
+  // Alarm function
+  function setAlarm(inputId) {
+    const time = document.getElementById(inputId).value;
+    if(time) alert('Alarm set for ' + time);
+    else alert('Please select a time');
+  }
+
+  // Schedule Call
+  function scheduleCall() {
+    const name = document.getElementById('callName').value;
+    const time = document.getElementById('callTime').value;
+    if(name && time){
+      const li = document.createElement('li');
+      li.textContent = name + ' at ' + time;
+      document.getElementById('callList').appendChild(li);
+      alert('Call scheduled!');
+    } else alert('Enter name and time');
+  }
+
+  // Translator (Main)
+  function speakText() {
+    const text = document.getElementById('translateText').value;
+    if(text){
+      const utter = new SpeechSynthesisUtterance(text);
+      speechSynthesis.speak(utter);
+    } else alert('Type text to speak');
+  }
+
+  // Translator (Boss)
+  function speakBossText() {
+    const text = document.getElementById('bossTranslateText').value;
+    if(text){
+      const utter = new SpeechSynthesisUtterance(text);
+      speechSynthesis.speak(utter);
+    } else alert('Type text to speak');
+  }
+</script>
+
 </body>
-</html>
+          </html>
