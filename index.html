@@ -9,19 +9,18 @@
 :root{
   --nav-bg:#0b1220;
   --accent:#f59e0b;
-  --panel-bg:rgba(15,23,42,.85);
+  --panel-bg:rgba(15,23,42,.9);
   --text:#e5e7eb;
   --forge-color:#f59e0b;
 }
 
-/* GENERAL */
-*{box-sizing:border-box;font-family:Inter,system-ui,sans-serif;margin:0;padding:0}
+/* RESET + BODY */
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',system-ui,sans-serif;}
+html, body{height:100%; width:100%; overflow-x:hidden;}
 body{
-  min-height:100vh;
   color:var(--text);
   background-size:cover;
   background-position:center;
-  background-repeat:no-repeat;
   transition:background 0.5s ease;
 }
 
@@ -41,38 +40,39 @@ body{
 }
 
 @keyframes rise{
-  from{transform:translateY(0) scale(1);opacity:1}
-  to{transform:translateY(-120vh) scale(.2);opacity:0}
+  0%{transform:translateY(0) scale(1);opacity:1;}
+  100%{transform:translateY(-100vh) scale(0.2);opacity:0;}
 }
 
-/* NAVBAR */
+/* NAVBAR FULLSCREEN WIDTH */
 nav{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:12px 40px;
+  padding:20px 60px;
+  width:100%;
   background:var(--nav-bg);
-  box-shadow:0 4px 20px rgba(0,0,0,0.5);
+  box-shadow:0 4px 25px rgba(0,0,0,0.5);
   position:sticky;
   top:0;
   z-index:10;
-  border-radius:0 0 20px 20px;
 }
 
 nav h1{
-  font-size:28px;
-  letter-spacing:2px;
+  font-size:32px;
   font-weight:700;
   color:var(--forge-color);
+  letter-spacing:2px;
   cursor:pointer;
+  font-family:'Cinzel', serif;
   transition:all 0.5s ease;
-  animation:forgeIdle 3s ease-in-out infinite alternate;
+  animation:forgeGlow 3s ease-in-out infinite alternate;
 }
 
-@keyframes forgeIdle{
-  0%{transform:scale(1) rotate(0deg); text-shadow:0 0 10px var(--forge-color);}
-  50%{transform:scale(1.05) rotate(2deg); text-shadow:0 0 20px var(--forge-color);}
-  100%{transform:scale(1) rotate(-2deg); text-shadow:0 0 10px var(--forge-color);}
+@keyframes forgeGlow{
+  0%{transform:scale(1) rotate(0deg); text-shadow:0 0 15px var(--forge-color);}
+  50%{transform:scale(1.05) rotate(2deg); text-shadow:0 0 30px var(--forge-color);}
+  100%{transform:scale(1) rotate(-2deg); text-shadow:0 0 15px var(--forge-color);}
 }
 
 nav .top-panel{
@@ -80,12 +80,12 @@ nav .top-panel{
   gap:20px;
 }
 nav .top-panel button{
-  padding:8px 18px;
-  border-radius:8px;
+  padding:10px 20px;
+  border-radius:10px;
   border:none;
-  background:rgba(255,255,255,0.05);
+  background:rgba(255,255,255,0.08);
   color:var(--text);
-  font-weight:500;
+  font-weight:600;
   transition:all 0.3s;
   cursor:pointer;
 }
@@ -95,52 +95,58 @@ nav .top-panel button:hover{
   transform:translateY(-2px);
 }
 
-/* CONTAINER */
+/* CONTAINER FULL SCREEN */
 .container{
-  padding:30px;
-  max-width:1000px;
-  margin:auto;
+  min-height:calc(100vh - 80px);
+  width:100%;
+  padding:30px 50px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
 }
 
 /* PANELS */
 .panel{
   display:none;
+  width:100%;
+  max-width:1000px;
   background:var(--panel-bg);
-  border-radius:16px;
-  padding:30px;
+  border-radius:20px;
+  padding:40px;
   margin-top:30px;
-  box-shadow:0 10px 40px rgba(0,0,0,0.6);
-  transition:all 0.3s ease;
+  box-shadow:0 15px 50px rgba(0,0,0,0.6);
 }
 .panel.active{display:block}
 
-h2{color:var(--accent)}
+h2{color:var(--accent); font-family:'Cinzel', serif; font-size:28px;}
 
 input,select,button{
-  padding:10px;
+  padding:12px;
   margin-top:10px;
   background:#020617;
   color:var(--text);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:6px;
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:8px;
+  font-size:16px;
 }
 
 .bg-grid{
   display:flex;
   flex-wrap:wrap;
-  gap:10px;
-  margin-top:10px;
+  gap:12px;
+  margin-top:20px;
 }
 .bg-grid img{
-  width:120px;
-  height:80px;
+  width:140px;
+  height:100px;
   object-fit:cover;
-  border-radius:6px;
+  border-radius:10px;
   cursor:pointer;
   border:2px solid transparent;
   transition:all 0.3s;
 }
-.bg-grid img:hover{border-color:var(--accent)}
+.bg-grid img:hover{border-color:var(--accent);}
 </style>
 </head>
 <body>
@@ -167,12 +173,10 @@ input,select,button{
 
   <section id="music" class="panel">
     <h2>Music</h2>
-    <input id="musicSearch" placeholder="Search music (e.g. Rema)">
+    <input id="musicSearch" placeholder="Search songs (e.g. Rema, Fireboy)">
     <button onclick="searchMusic()">Search</button>
-    <iframe id="spotifyPlayer" width="100%" height="380" frameborder="0" allow="autoplay; encrypted-media"></iframe>
-    <h3>Local Music</h3>
-    <input type="file" accept="audio/*" id="localMusic">
-    <audio id="localPlayer" controls></audio>
+    <div id="musicList" style="margin-top:20px;"></div>
+    <audio id="localPlayer" controls style="width:100%; margin-top:20px;"></audio>
   </section>
 
   <section id="alarm" class="panel">
@@ -200,19 +204,19 @@ input,select,button{
 </div>
 
 <script>
-// DOM references
+// DOM
 const forgeName = document.getElementById("forgeName");
 const embersContainer = document.getElementById("embers");
-const localMusic = document.getElementById("localMusic");
-const localPlayer = document.getElementById("localPlayer");
 const navColor = document.getElementById("navColor");
 const accentColor = document.getElementById("accentColor");
 const forgeColor = document.getElementById("forgeColor");
 const alarmTime = document.getElementById("alarmTime");
 const alarmSound = document.getElementById("alarmSound");
 const alarmAudio = document.getElementById("alarmAudio");
+const localPlayer = document.getElementById("localPlayer");
+const musicList = document.getElementById("musicList");
 
-// Backgrounds + complementary ember colors + forge effects
+// Full screen backgrounds + embers + mature Forge effects
 const backgrounds = [
   {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/pexels-photo.jpg", ember:"#0bf5f5", forge:"#f59e0b"},
   {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/155abc778f729b6991754795fa2bd977.png", ember:"#ff4500", forge:"#ff4500"},
@@ -222,24 +226,24 @@ const backgrounds = [
   {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/7b039e2d98568ed9420183f112de480d.jpg", ember:"#ff8c00", forge:"#ff8c00"}
 ];
 
-// Populate background grid
+// Background grid
 const bgGrid = document.getElementById("bgGrid");
 backgrounds.forEach(bg=>{
-  const img = document.createElement("img");
-  img.src = bg.url;
-  img.onclick = ()=>setBg(bg);
+  const img=document.createElement("img");
+  img.src=bg.url;
+  img.onclick=()=>setBg(bg);
   bgGrid.appendChild(img);
 });
 
-// Create Embers
-let emberCount = 40;
+// Embers
+let emberCount = 50;
 function createEmbers(color){
   embersContainer.innerHTML='';
   for(let i=0;i<emberCount;i++){
     const e=document.createElement("div");
     e.className="ember";
     e.style.left=Math.random()*100+"vw";
-    e.style.width=e.style.height=(3+Math.random()*5)+"px";
+    e.style.width=e.style.height=(3+Math.random()*6)+"px";
     e.style.background=color;
     e.style.animationDuration=(5+Math.random()*5)+"s";
     e.style.animationDelay=Math.random()*5+"s";
@@ -253,70 +257,51 @@ function showPanel(id){
   document.getElementById(id).classList.add("active");
 }
 
-// Set background + ember + forge color + animations
+// Set background + embers + forge
 function setBg(bg){
   document.body.style.backgroundImage=`url(${bg.url})`;
-  localStorage.setItem("bg",bg.url);
   createEmbers(bg.ember);
-  forgeName.style.color = bg.forge;
-  forgeName.style.textShadow = `0 0 20px ${bg.forge},0 0 40px ${bg.ember}`;
+  forgeName.style.color=bg.forge;
+  forgeName.style.textShadow=`0 0 20px ${bg.forge},0 0 40px ${bg.ember}`;
 }
 
-// Music
+// Music search (mock internal search)
+const songs=[
+  {title:"Calm Down - Rema", src:"https://example.com/songs/calmdown.mp3"},
+  {title:"Love Nwantiti - CKay", src:"https://example.com/songs/lovenwantiti.mp3"},
+  {title:"Something Special - Wizkid", src:"https://example.com/songs/somethingspecial.mp3"},
+  {title:"Blinding Lights - The Weeknd", src:"https://example.com/songs/blindinglights.mp3"}
+];
+
 function searchMusic(){
-  const q=document.getElementById("musicSearch").value.trim();
-  if(!q)return;
-  document.getElementById("spotifyPlayer").src=
-    `https://open.spotify.com/embed/search/${encodeURIComponent(q)}`;
+  const q=document.getElementById("musicSearch").value.toLowerCase();
+  musicList.innerHTML='';
+  const results=songs.filter(s=>s.title.toLowerCase().includes(q));
+  if(results.length===0){musicList.innerHTML="<p>No songs found</p>"; return;}
+  results.forEach(s=>{
+    const b=document.createElement("button");
+    b.textContent=s.title;
+    b.onclick=()=>{localPlayer.src=s.src; localPlayer.play();}
+    musicList.appendChild(b);
+  });
 }
-localMusic.onchange = e => {
-  const f=e.target.files[0];
-  if(!f)return;
-  localPlayer.src=URL.createObjectURL(f);
-  localPlayer.play();
-};
 
 // Alarm
 let alarm=null;
 function setAlarm(){alarm=alarmTime.value}
 setInterval(()=>{
-  if(!alarm)return;
+  if(!alarm) return;
   const t=new Date().toTimeString().slice(0,5);
-  if(t===alarm){
-    alarmAudio.src=alarmSound.value;
-    alarmAudio.play();
-    alert("FORGE: Execute.");
-    alarm=null;
-  }
+  if(t===alarm){alarmAudio.src=alarmSound.value; alarmAudio.play(); alert("FORGE: Execute."); alarm=null;}
 },1000);
 
 // Customize colors
-navColor.oninput=e=>{
-  document.documentElement.style.setProperty("--nav-bg",e.target.value);
-  localStorage.setItem("nav",e.target.value);
-};
-accentColor.oninput=e=>{
-  document.documentElement.style.setProperty("--accent",e.target.value);
-  localStorage.setItem("accent",e.target.value);
-};
-forgeColor.oninput=e=>{
-  document.documentElement.style.setProperty("--forge-color",e.target.value);
-  localStorage.setItem("forge",e.target.value);
-};
+navColor.oninput=e=>{document.documentElement.style.setProperty("--nav-bg",e.target.value);}
+accentColor.oninput=e=>{document.documentElement.style.setProperty("--accent",e.target.value);}
+forgeColor.oninput=e=>{document.documentElement.style.setProperty("--forge-color",e.target.value); forgeName.style.color=e.target.value;}
 
-// Load saved colors & background
-if(localStorage.getItem("nav"))
-  document.documentElement.style.setProperty("--nav-bg",localStorage.getItem("nav"));
-if(localStorage.getItem("accent"))
-  document.documentElement.style.setProperty("--accent",localStorage.getItem("accent"));
-if(localStorage.getItem("forge"))
-  document.documentElement.style.setProperty("--forge-color",localStorage.getItem("forge"));
-if(localStorage.getItem("bg")){
-  const lastBg = backgrounds.find(b=>b.url===localStorage.getItem("bg"));
-  if(lastBg) setBg(lastBg);
-}else{
-  setBg(backgrounds[0]);
-}
+// Load default
+setBg(backgrounds[0]);
 </script>
 </body>
 </html>
