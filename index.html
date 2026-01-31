@@ -11,16 +11,18 @@
   --accent:#f59e0b;
   --panel-bg:rgba(15,23,42,.75);
   --text:#e5e7eb;
+  --forge-color:#f59e0b;
+  --ember-color:#f59e0b;
 }
 
-*{box-sizing:border-box;font-family:Inter,system-ui,sans-serif}
+*{box-sizing:border-box;font-family:Inter,system-ui,sans-serif;margin:0;padding:0}
 
 body{
-  margin:0;
   min-height:100vh;
   color:var(--text);
   background-size:cover;
   background-position:center;
+  transition:background 0.5s ease;
 }
 
 body::before{
@@ -30,9 +32,10 @@ body::before{
   background:rgba(0,0,0,.6);
   backdrop-filter:blur(10px);
   z-index:-1;
+  transition:background 0.5s ease;
 }
 
-/* 🔥 FORGE EMBERS */
+/* 🔥 EMBERS */
 .forge-embers{
   position:fixed;
   inset:0;
@@ -42,62 +45,50 @@ body::before{
 .ember{
   position:absolute;
   bottom:-20px;
-  width:4px;
-  height:4px;
-  background:#f59e0b;
   border-radius:50%;
   opacity:.8;
   animation:rise linear infinite;
 }
-@keyframes rise{
-  from{transform:translateY(0) scale(1);opacity:1}
-  to{transform:translateY(-120vh) scale(.2);opacity:0}
-}
 
+/* NAV & TOP PANELS */
 nav{
-  height:64px;
-  background:var(--nav-bg);
   display:flex;
+  flex-direction:column;
   align-items:center;
-  justify-content:space-between;
-  padding:0 24px;
+  background:var(--nav-bg);
   border-bottom:1px solid rgba(255,255,255,.05);
+  padding:10px;
   z-index:2;
 }
-
 nav h1{
-  color:var(--accent);
+  color:var(--forge-color);
+  font-size:24px;
   letter-spacing:3px;
-  font-size:18px;
+  transition:color 0.5s ease, transform 0.5s ease;
 }
 
-.container{
+.top-panel{
   display:flex;
-  height:calc(100vh - 64px);
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px;
+  margin-top:10px;
 }
 
-aside{
-  width:220px;
-  background:rgba(0,0,0,.4);
-  padding:16px;
-}
-
-aside button{
-  width:100%;
-  padding:12px;
-  margin-bottom:10px;
+.top-panel button{
+  padding:8px 14px;
   background:none;
-  color:var(--text);
   border:1px solid rgba(255,255,255,.1);
+  color:var(--text);
   cursor:pointer;
 }
-aside button:hover{border-color:var(--accent)}
+.top-panel button:hover{border-color:var(--accent)}
 
-main{
-  flex:1;
-  padding:32px;
+.container{
+  padding:20px;
 }
 
+/* PANELS */
 .panel{
   display:none;
   max-width:900px;
@@ -105,10 +96,10 @@ main{
   background:var(--panel-bg);
   border-radius:14px;
   padding:24px;
+  margin-top:20px;
 }
 .panel.active{display:block}
-
-h2{margin-top:0;color:var(--accent)}
+h2{color:var(--accent)}
 
 input,select,button{
   padding:10px;
@@ -118,6 +109,12 @@ input,select,button{
   border:1px solid rgba(255,255,255,.1);
 }
 
+.bg-grid{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:10px;
+}
 .bg-grid img{
   width:120px;
   height:80px;
@@ -129,102 +126,139 @@ input,select,button{
 .bg-grid img:hover{border-color:var(--accent)}
 </style>
 </head>
-
 <body>
 
 <!-- 🔥 EMBERS -->
 <div class="forge-embers" id="embers"></div>
 
 <nav>
-  <h1>FORGE</h1>
-  <div>
-    Nav <input type="color" id="navColor">
-    Accent <input type="color" id="accentColor">
+  <h1 id="forgeName">FORGE</h1>
+  <div class="top-panel">
+    <button onclick="showPanel('assistant')">Assistant</button>
+    <button onclick="showPanel('music')">Music</button>
+    <button onclick="showPanel('alarm')">Alarm</button>
+    <button onclick="showPanel('customize')">Customize</button>
+    <button onclick="showPanel('background')">Background</button>
   </div>
 </nav>
 
 <div class="container">
+  <section id="assistant" class="panel active">
+    <h2>FORGE Assistant</h2>
+    <p>Forge does not comfort you. It sharpens you.</p>
+  </section>
 
-<aside>
-  <button onclick="showPanel('assistant')">Assistant</button>
-  <button onclick="showPanel('music')">Music</button>
-  <button onclick="showPanel('alarm')">Alarm</button>
-  <button onclick="showPanel('background')">Background</button>
-</aside>
+  <section id="music" class="panel">
+    <h2>Music</h2>
+    <input id="musicSearch" placeholder="Search music (e.g. Rema)">
+    <button onclick="searchMusic()">Search</button>
+    <iframe id="spotifyPlayer" width="100%" height="380" frameborder="0" allow="autoplay; encrypted-media"></iframe>
+    <h3>Local Music</h3>
+    <input type="file" accept="audio/*" id="localMusic">
+    <audio id="localPlayer" controls></audio>
+  </section>
 
-<main>
+  <section id="alarm" class="panel">
+    <h2>Alarm</h2>
+    <input type="time" id="alarmTime">
+    <select id="alarmSound">
+      <option value="alarm1.mp3">Forge Pulse</option>
+      <option value="alarm2.mp3">Classic</option>
+    </select>
+    <button onclick="setAlarm()">Set Alarm</button>
+    <audio id="alarmAudio"></audio>
+  </section>
 
-<section id="assistant" class="panel active">
-  <h2>FORGE Assistant</h2>
-  <p>Forge does not comfort you. It sharpens you.</p>
-</section>
+  <section id="customize" class="panel">
+    <h2>Customize</h2>
+    <label>Nav Color: <input type="color" id="navColor"></label>
+    <label>Accent Color: <input type="color" id="accentColor"></label>
+    <label>Forge Name Color: <input type="color" id="forgeColor"></label>
+  </section>
 
-<section id="music" class="panel">
-  <h2>Music</h2>
-
-  <input id="musicSearch" placeholder="Search music (e.g. Rema)">
-  <button onclick="searchMusic()">Search</button>
-
-  <iframe id="spotifyPlayer"
-    width="100%" height="380"
-    frameborder="0"
-    allow="autoplay; encrypted-media">
-  </iframe>
-
-  <h3>Local Music</h3>
-  <input type="file" accept="audio/*" id="localMusic">
-  <audio id="localPlayer" controls></audio>
-</section>
-
-<section id="alarm" class="panel">
-  <h2>Alarm</h2>
-  <input type="time" id="alarmTime">
-  <select id="alarmSound">
-    <option value="alarm1.mp3">Forge Pulse</option>
-    <option value="alarm2.mp3">Classic</option>
-  </select>
-  <button onclick="setAlarm()">Set Alarm</button>
-  <audio id="alarmAudio"></audio>
-</section>
-
-<section id="background" class="panel">
-  <h2>Backgrounds</h2>
-  <div class="bg-grid">
-    <img src="https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/94b8a6aaad0fe142d54940387a077d38a060fba1/steel-furnace.jpg" onclick="setBg(this.src)">
-  </div>
-</section>
-
-</main>
+  <section id="background" class="panel">
+    <h2>Backgrounds</h2>
+    <div class="bg-grid" id="bgGrid"></div>
+  </section>
 </div>
 
 <script>
-/* 🔥 DEFAULT BACKGROUND */
-const DEFAULT_BG =
-"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/94b8a6aaad0fe142d54940387a077d38a060fba1/steel-furnace.jpg";
+// 📌 BACKGROUND IMAGES + EFFECTS
+const backgrounds = [
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/pexels-photo.jpg", ember:"#f59e0b", forge:"#f59e0b"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/155abc778f729b6991754795fa2bd977.png", ember:"#ff4500", forge:"#ff4500"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/1cbfec64d9a80b1933ae3d166c85c65f.png", ember:"#00ffff", forge:"#00ffff"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/2e05adb4206f981466580254b616f639.png", ember:"#ff69b4", forge:"#ff69b4"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/52649ecaf9bfa6ee8e91800c9cbd9bf6.png", ember:"#00ff00", forge:"#00ff00"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/7b039e2d98568ed9420183f112de480d.jpg", ember:"#ff8c00", forge:"#ff8c00"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/6c432a34046965309c32e7377dca8a74.png", ember:"#ff00ff", forge:"#ff00ff"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/8b4513cb9f4987307212ad15c4eceb49.png", ember:"#00ffff", forge:"#00ffff"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/985f1e7002a3992820f0a5e71b2b329c.png", ember:"#ff4500", forge:"#ff4500"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/b14b1e4c9d50255971b779fd30519b88.png", ember:"#f59e0b", forge:"#f59e0b"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/steel-nav.jpg", ember:"#ffffff", forge:"#ffffff"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/pexels-photo-414171.jpeg", ember:"#f59e0b", forge:"#f59e0b"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/pexels-photo-356004.jpeg", ember:"#ff4500", forge:"#ff4500"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/file_0000000096b0620a8a5f267b403cf0ad.png", ember:"#00ffff", forge:"#00ffff"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/file_0000000070b4620aadfa4122d6c0b9c0.png", ember:"#ff69b4", forge:"#ff69b4"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/fad78bc462b22049f03519d9ba9ec6de.png", ember:"#00ff00", forge:"#00ff00"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/c92beec6743d05636e1fd7be278a87dd.png", ember:"#ff8c00", forge:"#ff8c00"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/bf3dd05033975b34dbb3cf2d3a387056.png", ember:"#ff00ff", forge:"#ff00ff"}
+];
 
-document.body.style.backgroundImage =
-`url(${localStorage.getItem("bg")||DEFAULT_BG})`;
+// 🌟 Populate background grid
+const bgGrid = document.getElementById("bgGrid");
+backgrounds.forEach(bg=>{
+  const img = document.createElement("img");
+  img.src = bg.url;
+  img.onclick = ()=>setBg(bg);
+  bgGrid.appendChild(img);
+});
 
-/* PANELS */
+// 🔥 EMBERS
+const embersContainer = document.getElementById("embers");
+let emberCount = 40;
+function createEmbers(color){
+  embersContainer.innerHTML = '';
+  for(let i=0;i<emberCount;i++){
+    const e=document.createElement("div");
+    e.className="ember";
+    e.style.left=Math.random()*100+"vw";
+    e.style.width=e.style.height=(3+Math.random()*5)+"px";
+    e.style.background=color;
+    e.style.animationDuration=(5+Math.random()*5)+"s";
+    e.style.animationDelay=Math.random()*5+"s";
+    embersContainer.appendChild(e);
+  }
+}
+@keyframes rise{
+  from{transform:translateY(0) scale(1);opacity:1}
+  to{transform:translateY(-120vh) scale(.2);opacity:0}
+}
+
+// 💻 PANELS
 function showPanel(id){
   document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
 
-/* BACKGROUND */
-function setBg(url){
-  document.body.style.backgroundImage=`url(${url})`;
-  localStorage.setItem("bg",url);
+// 🌈 SET BG & EFFECTS
+const forgeName = document.getElementById("forgeName");
+function setBg(bg){
+  document.body.style.backgroundImage=`url(${bg.url})`;
+  localStorage.setItem("bg",bg.url);
+  // Change ember color
+  createEmbers(bg.ember);
+  // Change forge name color
+  forgeName.style.color = bg.forge;
 }
 
-/* MUSIC */
+// 🎵 MUSIC
 function searchMusic(){
   const q=document.getElementById("musicSearch").value.trim();
   if(!q)return;
   document.getElementById("spotifyPlayer").src=
-  `https://open.spotify.com/embed/search/${encodeURIComponent(q)}`;
+    `https://open.spotify.com/embed/search/${encodeURIComponent(q)}`;
 }
-
 localMusic.onchange=e=>{
   const f=e.target.files[0];
   if(!f)return;
@@ -232,10 +266,9 @@ localMusic.onchange=e=>{
   localPlayer.play();
 };
 
-/* ALARM */
+// ⏰ ALARM
 let alarm=null;
 function setAlarm(){alarm=alarmTime.value}
-
 setInterval(()=>{
   if(!alarm)return;
   const t=new Date().toTimeString().slice(0,5);
@@ -247,7 +280,7 @@ setInterval(()=>{
   }
 },1000);
 
-/* COLORS */
+// 🎨 CUSTOMIZE COLORS
 navColor.oninput=e=>{
   document.documentElement.style.setProperty("--nav-bg",e.target.value);
   localStorage.setItem("nav",e.target.value);
@@ -256,22 +289,25 @@ accentColor.oninput=e=>{
   document.documentElement.style.setProperty("--accent",e.target.value);
   localStorage.setItem("accent",e.target.value);
 };
+forgeColor.oninput=e=>{
+  document.documentElement.style.setProperty("--forge-color",e.target.value);
+  localStorage.setItem("forge",e.target.value);
+};
+
+// 🟢 Load saved colors & background
 if(localStorage.getItem("nav"))
-document.documentElement.style.setProperty("--nav-bg",localStorage.getItem("nav"));
+  document.documentElement.style.setProperty("--nav-bg",localStorage.getItem("nav"));
 if(localStorage.getItem("accent"))
-document.documentElement.style.setProperty("--accent",localStorage.getItem("accent"));
-
-/* 🔥 EMBERS GENERATION */
-const embers=document.getElementById("embers");
-for(let i=0;i<40;i++){
-  const e=document.createElement("div");
-  e.className="ember";
-  e.style.left=Math.random()*100+"vw";
-  e.style.animationDuration=5+Math.random()*5+"s";
-  e.style.animationDelay=Math.random()*5+"s";
-  embers.appendChild(e);
+  document.documentElement.style.setProperty("--accent",localStorage.getItem("accent"));
+if(localStorage.getItem("forge"))
+  document.documentElement.style.setProperty("--forge-color",localStorage.getItem("forge"));
+if(localStorage.getItem("bg")){
+  const lastBg = backgrounds.find(b=>b.url===localStorage.getItem("bg"));
+  if(lastBg) setBg(lastBg);
+}else{
+  setBg(backgrounds[0]);
 }
-</script>
 
+</script>
 </body>
 </html>
