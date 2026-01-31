@@ -22,6 +22,7 @@ body{
   color:var(--text);
   background-size:cover;
   background-position:center;
+  background-repeat:no-repeat;
   transition:background 0.5s ease;
 }
 
@@ -48,6 +49,11 @@ body::before{
   border-radius:50%;
   opacity:.8;
   animation:rise linear infinite;
+}
+
+@keyframes rise{
+  from{transform:translateY(0) scale(1);opacity:1}
+  to{transform:translateY(-120vh) scale(.2);opacity:0}
 }
 
 /* NAV & TOP PANELS */
@@ -183,26 +189,26 @@ input,select,button{
 </div>
 
 <script>
-// 📌 BACKGROUND IMAGES + EFFECTS
+// 📌 RAW URLs + Effects
 const backgrounds = [
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/pexels-photo.jpg", ember:"#f59e0b", forge:"#f59e0b"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/155abc778f729b6991754795fa2bd977.png", ember:"#ff4500", forge:"#ff4500"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/1cbfec64d9a80b1933ae3d166c85c65f.png", ember:"#00ffff", forge:"#00ffff"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/2e05adb4206f981466580254b616f639.png", ember:"#ff69b4", forge:"#ff69b4"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/52649ecaf9bfa6ee8e91800c9cbd9bf6.png", ember:"#00ff00", forge:"#00ff00"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/7b039e2d98568ed9420183f112de480d.jpg", ember:"#ff8c00", forge:"#ff8c00"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/6c432a34046965309c32e7377dca8a74.png", ember:"#ff00ff", forge:"#ff00ff"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/8b4513cb9f4987307212ad15c4eceb49.png", ember:"#00ffff", forge:"#00ffff"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/985f1e7002a3992820f0a5e71b2b329c.png", ember:"#ff4500", forge:"#ff4500"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/b14b1e4c9d50255971b779fd30519b88.png", ember:"#f59e0b", forge:"#f59e0b"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/steel-nav.jpg", ember:"#ffffff", forge:"#ffffff"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/pexels-photo-414171.jpeg", ember:"#f59e0b", forge:"#f59e0b"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/pexels-photo-356004.jpeg", ember:"#ff4500", forge:"#ff4500"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/file_0000000096b0620a8a5f267b403cf0ad.png", ember:"#00ffff", forge:"#00ffff"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/file_0000000070b4620aadfa4122d6c0b9c0.png", ember:"#ff69b4", forge:"#ff69b4"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/fad78bc462b22049f03519d9ba9ec6de.png", ember:"#00ff00", forge:"#00ff00"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/c92beec6743d05636e1fd7be278a87dd.png", ember:"#ff8c00", forge:"#ff8c00"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/9b37cf3b9310def8cc4021f4d05863a18645a8ea/bf3dd05033975b34dbb3cf2d3a387056.png", ember:"#ff00ff", forge:"#ff00ff"}
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/pexels-photo.jpg", ember:"#f59e0b", forge:"#f59e0b"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/155abc778f729b6991754795fa2bd977.png", ember:"#ff4500", forge:"#ff4500"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/1cbfec64d9a80b1933ae3d166c85c65f.png", ember:"#00ffff", forge:"#00ffff"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/2e05adb4206f981466580254b616f639.png", ember:"#ff69b4", forge:"#ff69b4"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/52649ecaf9bfa6ee8e91800c9cbd9bf6.png", ember:"#00ff00", forge:"#00ff00"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/7b039e2d98568ed9420183f112de480d.jpg", ember:"#ff8c00", forge:"#ff8c00"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/6c432a34046965309c32e7377dca8a74.png", ember:"#ff00ff", forge:"#ff00ff"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/8b4513cb9f4987307212ad15c4eceb49.png", ember:"#00ffff", forge:"#00ffff"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/985f1e7002a3992820f0a5e71b2b329c.png", ember:"#ff4500", forge:"#ff4500"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/b14b1e4c9d50255971b779fd30519b88.png", ember:"#f59e0b", forge:"#f59e0b"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/steel-nav.jpg", ember:"#ffffff", forge:"#ffffff"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/pexels-photo-414171.jpeg", ember:"#f59e0b", forge:"#f59e0b"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/pexels-photo-356004.jpeg", ember:"#ff4500", forge:"#ff4500"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/file_0000000096b0620a8a5f267b403cf0ad.png", ember:"#00ffff", forge:"#00ffff"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/file_0000000070b4620aadfa4122d6c0b9c0.png", ember:"#ff69b4", forge:"#ff69b4"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/fad78bc462b22049f03519d9ba9ec6de.png", ember:"#00ff00", forge:"#00ff00"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/c92beec6743d05636e1fd7be278a87dd.png", ember:"#ff8c00", forge:"#ff8c00"},
+  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/bf3dd05033975b34dbb3cf2d3a387056.png", ember:"#ff00ff", forge:"#ff00ff"}
 ];
 
 // 🌟 Populate background grid
@@ -230,10 +236,6 @@ function createEmbers(color){
     embersContainer.appendChild(e);
   }
 }
-@keyframes rise{
-  from{transform:translateY(0) scale(1);opacity:1}
-  to{transform:translateY(-120vh) scale(.2);opacity:0}
-}
 
 // 💻 PANELS
 function showPanel(id){
@@ -246,9 +248,7 @@ const forgeName = document.getElementById("forgeName");
 function setBg(bg){
   document.body.style.backgroundImage=`url(${bg.url})`;
   localStorage.setItem("bg",bg.url);
-  // Change ember color
   createEmbers(bg.ember);
-  // Change forge name color
   forgeName.style.color = bg.forge;
 }
 
@@ -307,7 +307,6 @@ if(localStorage.getItem("bg")){
 }else{
   setBg(backgrounds[0]);
 }
-
 </script>
 </body>
 </html>
