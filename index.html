@@ -2,337 +2,174 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>FORGE PA</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
+<title>Valentine Ask Out</title>
 <style>
-:root{
-  --nav-bg:#0b1220;
-  --accent:#f59e0b;
-  --panel-bg:rgba(15,23,42,.9);
-  --text:#e5e7eb;
-  --forge-color:#f59e0b;
-}
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: #ffe6e6;
+    padding: 50px;
+  }
 
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',system-ui,sans-serif;}
-html, body{height:100%; width:100%; overflow-x:hidden;}
-body{
-  color:var(--text);
-  background-size:cover;
-  background-position:center;
-  transition:background 0.5s ease;
-}
+  .container h1 {
+    margin-bottom: 40px;
+    font-size: 2em;
+    color: #e60073;
+  }
 
-/* EMBERS */
-.forge-embers{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:0;
-}
-.ember{
-  position:absolute;
-  bottom:-20px;
-  border-radius:50%;
-  opacity:.6;
-  animation:rise linear infinite;
-}
-@keyframes rise{
-  0%{transform:translateY(0) scale(0.3);opacity:0.6;}
-  100%{transform:translateY(-100vh) scale(0.1);opacity:0;}
-}
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
 
-/* NAVBAR */
-nav{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:15px 30px;
-  width:100%;
-  background:var(--nav-bg);
-  box-shadow:0 4px 20px rgba(0,0,0,0.5);
-  position:sticky;
-  top:0;
-  z-index:10;
-  flex-wrap:wrap;
-}
-nav h1{
-  font-size:28px;
-  font-weight:700;
-  color:var(--forge-color);
-  letter-spacing:2px;
-  font-family:'Cinzel', serif;
-  animation:forgeGlow 3s ease-in-out infinite alternate;
-  margin-bottom:5px;
-}
-@keyframes forgeGlow{
-  0%{transform:scale(1) rotate(0deg); text-shadow:0 0 15px var(--forge-color);}
-  50%{transform:scale(1.05) rotate(2deg); text-shadow:0 0 30px var(--forge-color);}
-  100%{transform:scale(1) rotate(-2deg); text-shadow:0 0 15px var(--forge-color);}
-}
-nav .top-panel{
-  display:flex;
-  gap:15px;
-  flex-wrap:wrap;
-}
-nav .top-panel button{
-  padding:8px 16px;
-  border-radius:8px;
-  border:none;
-  background:rgba(255,255,255,0.08);
-  color:var(--text);
-  font-weight:600;
-  transition:all 0.3s;
-  cursor:pointer;
-}
-nav .top-panel button:hover{
-  background:var(--accent);
-  color:#000;
-  transform:translateY(-2px);
-}
+  .buttons button {
+    padding: 15px 30px;
+    font-size: 18px;
+    cursor: pointer;
+    min-width: 100px;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.3s;
+  }
 
-/* CONTAINER */
-.container{
-  min-height:calc(100vh - 70px);
-  width:100%;
-  padding:20px 40px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:flex-start;
-}
+  button.yes {
+    background: #ff4d6d;
+    color: #fff;
+  }
 
-/* PANELS */
-.panel{
-  display:none;
-  width:100%;
-  max-width:1000px;
-  background:var(--panel-bg);
-  border-radius:20px;
-  padding:30px;
-  margin-top:20px;
-  box-shadow:0 15px 50px rgba(0,0,0,0.6);
-}
-.panel.active{display:block}
-h2{color:var(--accent); font-family:'Cinzel', serif; font-size:26px;}
+  button.no {
+    background: #999;
+    color: #fff;
+    position: relative;
+  }
 
-input,select,button{
-  padding:10px;
-  margin-top:10px;
-  background:#020617;
-  color:var(--text);
-  border:1px solid rgba(255,255,255,.15);
-  border-radius:6px;
-  font-size:16px;
-}
+  .fun-area {
+    margin-top: 30px;
+    min-height: 150px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    overflow-y: auto;
+  }
 
-/* BG GRID */
-.bg-grid{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:20px;
-  justify-content:center;
-}
-.bg-grid img{
-  width:130px;
-  height:90px;
-  object-fit:cover;
-  border-radius:8px;
-  cursor:pointer;
-  border:2px solid transparent;
-  transition:all 0.3s;
-}
-.bg-grid img:hover{border-color:var(--accent);}
+  .fun-item {
+    margin: 10px 0;
+    animation: fadeIn 0.5s;
+  }
 
-/* MUSIC BUTTONS */
-#musicList button{
-  display:block;
-  width:100%;
-  margin:5px 0;
-  text-align:left;
-}
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(-10px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
 
-/* RESPONSIVE */
-@media(max-width:768px){
-  nav{padding:10px 20px;}
-  nav h1{font-size:24px;}
-  .top-panel button{padding:6px 12px;font-size:14px;}
-  .container{padding:15px 20px;}
-  .panel{padding:20px;}
-}
-@media(max-width:480px){
-  nav{flex-direction:column; align-items:flex-start;}
-  .top-panel{justify-content:flex-start;}
-}
+  /* Celebration overlay */
+  .celebration {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(255, 230, 230, 0.95);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    animation: pop 0.5s ease-out;
+  }
+
+  .celebration h1 {
+    color: #e60073;
+    font-size: 3em;
+    margin-bottom: 20px;
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .celebration img {
+    width: 300px;
+    border-radius: 15px;
+  }
 </style>
 </head>
 <body>
 
-<div class="forge-embers" id="embers"></div>
-
-<nav>
-  <h1 id="forgeName">FORGE</h1>
-  <div class="top-panel">
-    <button onclick="showPanel('assistant')">Assistant</button>
-    <button onclick="showPanel('music')">Music</button>
-    <button onclick="showPanel('alarm')">Alarm</button>
-    <button onclick="showPanel('customize')">Customize</button>
-    <button onclick="showPanel('background')">Background</button>
-  </div>
-</nav>
-
 <div class="container">
-  <section id="assistant" class="panel active">
-    <h2>FORGE Assistant</h2>
-    <p>Forge does not comfort you. It sharpens you.</p>
-  </section>
-
-  <section id="music" class="panel">
-    <h2>Music</h2>
-    <input id="musicSearch" placeholder="Search songs">
-    <button onclick="searchMusic()">Search</button>
-    <div id="musicList" style="margin-top:15px;"></div>
-    <audio id="localPlayer" controls style="width:100%; margin-top:15px;"></audio>
-  </section>
-
-  <section id="alarm" class="panel">
-    <h2>Alarm</h2>
-    <input type="time" id="alarmTime">
-    <select id="alarmSound">
-      <option value="alarm1.mp3">Forge Pulse</option>
-      <option value="alarm2.mp3">Classic</option>
-    </select>
-    <button onclick="setAlarm()">Set Alarm</button>
-    <audio id="alarmAudio"></audio>
-  </section>
-
-  <section id="customize" class="panel">
-    <h2>Customize</h2>
-    <label>Nav Color: <input type="color" id="navColor"></label>
-    <label>Accent Color: <input type="color" id="accentColor"></label>
-    <label>Forge Name Color: <input type="color" id="forgeColor"></label>
-  </section>
-
-  <section id="background" class="panel">
-    <h2>Backgrounds</h2>
-    <div class="bg-grid" id="bgGrid"></div>
-  </section>
+  <h1>Will you go out with me? ❤️</h1>
+  <div class="buttons">
+    <button class="yes">Yes</button>
+    <button class="no">No</button>
+  </div>
+  <div class="fun-area">
+    <!-- GIFs and statements appear here -->
+  </div>
 </div>
 
 <script>
-// DOM Elements
-const forgeName = document.getElementById("forgeName");
-const embersContainer = document.getElementById("embers");
-const navColor = document.getElementById("navColor");
-const accentColor = document.getElementById("accentColor");
-const forgeColor = document.getElementById("forgeColor");
-const alarmTime = document.getElementById("alarmTime");
-const alarmSound = document.getElementById("alarmSound");
-const alarmAudio = document.getElementById("alarmAudio");
-const localPlayer = document.getElementById("localPlayer");
-const musicList = document.getElementById("musicList");
+const noBtn = document.querySelector('.no');
+const funArea = document.querySelector('.fun-area');
+const yesBtn = document.querySelector('.yes');
 
-// 18 Backgrounds with complementary ember & forge colors
-const backgrounds = [
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/pexels-photo.jpg", ember:"#ffb347", forge:"#f59e0b"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/155abc778f729b6991754795fa2bd977.png", ember:"#ff6347", forge:"#ff4500"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/1cbfec64d9a80b1933ae3d166c85c65f.png", ember:"#40e0d0", forge:"#00ffff"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/2e05adb4206f981466580254b616f639.png", ember:"#ff69b4", forge:"#ff69b4"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/52649ecaf9bfa6ee8e91800c9cbd9bf6.png", ember:"#32cd32", forge:"#00ff00"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/7b039e2d98568ed9420183f112de480d.jpg", ember:"#ff8c00", forge:"#ff8c00"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/6c432a34046965309c32e7377dca8a74.png", ember:"#ff00ff", forge:"#ff00ff"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/8b4513cb9f4987307212ad15c4eceb49.png", ember:"#00ffff", forge:"#00ffff"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/985f1e7002a3992820f0a5e71b2b329c.png", ember:"#ff4500", forge:"#ff4500"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/b14b1e4c9d50255971b779fd30519b88.png", ember:"#f59e0b", forge:"#f59e0b"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/steel-nav.jpg", ember:"#ffffff", forge:"#ffffff"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/pexels-photo-414171.jpeg", ember:"#ffb347", forge:"#f59e0b"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/pexels-photo-356004.jpeg", ember:"#ff6347", forge:"#ff4500"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/file_0000000096b0620a8a5f267b403cf0ad.png", ember:"#40e0d0", forge:"#00ffff"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/file_0000000070b4620aadfa4122d6c0b9c0.png", ember:"#ff69b4", forge:"#ff69b4"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/fad78bc462b22049f03519d9ba9ec6de.png", ember:"#32cd32", forge:"#00ff00"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/c92beec6743d05636e1fd7be278a87dd.png", ember:"#ff8c00", forge:"#ff8c00"},
-  {url:"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/main/bf3dd05033975b34dbb3cf2d3a387056.png", ember:"#ff00ff", forge:"#ff00ff"}
+const statements = [
+  "Oops! Try again 😜",
+  "Come on, don't be shy!",
+  "Haha, not today 😆",
+  "I knew you'd say that 😂",
+  "Just kidding! 😎",
+  "Nice try! 😏",
+  "Better luck next time 🤣"
 ];
 
-// Background Grid
-const bgGrid = document.getElementById("bgGrid");
-backgrounds.forEach(bg=>{
-  const img=document.createElement("img");
-  img.src=bg.url;
-  img.onclick=()=>setBg(bg);
-  bgGrid.appendChild(img);
+const gifs = [
+  "https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif",
+  "https://media.giphy.com/media/3ohc0Wb0zqP0P6wV9a/giphy.gif",
+  "https://media.giphy.com/media/26AHONQ79FdWZhAI0/giphy.gif",
+  "https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif"
+];
+
+// Dodge "No" button
+noBtn.addEventListener('mouseenter', () => {
+  const x = Math.random() * 300 - 150;
+  const y = Math.random() * 150 - 75;
+  noBtn.style.transform = `translate(${x}px, ${y}px)`;
 });
 
-// Embers
-let emberCount = 50;
-function createEmbers(color){
-  embersContainer.innerHTML='';
-  for(let i=0;i<emberCount;i++){
-    const e=document.createElement("div");
-    e.className="ember";
-    e.style.left=Math.random()*100+"vw";
-    e.style.width=e.style.height=(2+Math.random()*3)+"px";
-    e.style.background=color;
-    e.style.animationDuration=(4+Math.random()*4)+"s";
-    e.style.animationDelay=Math.random()*4+"s";
-    embersContainer.appendChild(e);
-  }
-}
+noBtn.addEventListener('click', () => {
+  const randomStatement = statements[Math.floor(Math.random() * statements.length)];
+  const randomGif = gifs[Math.floor(Math.random() * gifs.length)];
 
-// Panels
-function showPanel(id){
-  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-}
+  const div = document.createElement('div');
+  div.classList.add('fun-item');
+  div.innerHTML = `<p>${randomStatement}</p><img src="${randomGif}" width="200">`;
+  funArea.appendChild(div);
 
-// Set Background + Ember + Forge
-function setBg(bg){
-  document.body.style.backgroundImage=`url(${bg.url})`;
-  createEmbers(bg.ember);
-  forgeName.style.color=bg.forge;
-  forgeName.style.textShadow=`0 0 20px ${bg.forge},0 0 40px ${bg.ember}`;
-}
+  funArea.scrollTop = funArea.scrollHeight;
+});
 
-// Music
-const songs=[
-  {title:"Calm Down - Rema", src:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
-  {title:"Love Nwantiti - CKay", src:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"},
-  {title:"Something Special - Wizkid", src:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"},
-  {title:"Blinding Lights - The Weeknd", src:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"}
-];
+noBtn.addEventListener('mouseleave', () => {
+  noBtn.style.transform = `translate(0,0)`;
+});
 
-function searchMusic(){
-  const q=document.getElementById("musicSearch").value.toLowerCase();
-  musicList.innerHTML='';
-  const results=songs.filter(s=>s.title.toLowerCase().includes(q));
-  if(results.length===0){musicList.innerHTML="<p>No songs found</p>"; return;}
-  results.forEach(s=>{
-    const b=document.createElement("button");
-    b.textContent=s.title;
-    b.onclick=()=>{localPlayer.src=s.src; localPlayer.play();}
-    musicList.appendChild(b);
-  });
-}
+// Yes button celebration
+yesBtn.addEventListener('click', () => {
+  const celebration = document.createElement('div');
+  celebration.classList.add('celebration');
+  celebration.innerHTML = `
+    <h1>She said YES! ❤️</h1>
+    <img src="https://media.giphy.com/media/111ebonMs90YLu/giphy.gif">
+  `;
+  document.body.appendChild(celebration);
 
-// Alarm
-let alarm=null;
-function setAlarm(){alarm=alarmTime.value;}
-setInterval(()=>{
-  if(!alarm) return;
-  const t=new Date().toTimeString().slice(0,5);
-  if(t===alarm){alarmAudio.src=alarmSound.value; alarmAudio.play(); alert("FORGE: Execute."); alarm=null;}
-},1000);
-
-// Customize
-navColor.oninput=e=>{document.documentElement.style.setProperty("--nav-bg",e.target.value);}
-accentColor.oninput=e=>{document.documentElement.style.setProperty("--accent",e.target.value);}
-forgeColor.oninput=e=>{document.documentElement.style.setProperty("--forge-color",e.target.value); forgeName.style.color=e.target.value;}
-
-// Default
-setBg(backgrounds[0]);
+  // Auto-remove celebration after 5 seconds
+  setTimeout(() => {
+    celebration.remove();
+  }, 5000);
+});
 </script>
+
 </body>
 </html>
