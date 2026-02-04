@@ -2,206 +2,214 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>FORGE PA</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Valentine Ask Out</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background: #ffe6e6;
-    padding: 50px;
-    overflow: hidden;
-  }
+:root{
+  --nav-bg:#0b1220;
+  --accent:#f59e0b;
+  --panel-bg:rgba(15,23,42,.9);
+  --text:#e5e7eb;
+  --forge-color:#f59e0b;
+}
 
-  .container h1 {
-    margin-bottom: 40px;
-    font-size: 2em;
-    color: #e60073;
-  }
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Poppins',system-ui,sans-serif;}
+html, body{height:100%; width:100%; overflow-x:hidden;}
+body{
+  color:var(--text);
+  background-size:cover;
+  background-position:center;
+  transition:background 0.5s ease;
+}
 
-  .buttons {
-    position: relative;
-    height: 200px;
-  }
+/* EMBERS */
+.forge-embers{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+}
+.ember{
+  position:absolute;
+  bottom:-20px;
+  border-radius:50%;
+  opacity:.6;
+  animation:rise linear infinite;
+}
+@keyframes rise{
+  0%{transform:translateY(0) scale(0.3);opacity:0.6;}
+  100%{transform:translateY(-100vh) scale(0.1);opacity:0;}
+}
 
-  .buttons button {
-    padding: 15px 30px;
-    font-size: 18px;
-    cursor: pointer;
-    min-width: 100px;
-    border: none;
-    border-radius: 10px;
-    position: absolute;
-    transition: left 0.2s, top 0.2s;
-  }
+/* NAVBAR */
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 30px;
+  width:100%;
+  background:var(--nav-bg);
+  box-shadow:0 4px 20px rgba(0,0,0,0.5);
+  position:sticky;
+  top:0;
+  z-index:10;
+  flex-wrap:wrap;
+}
+nav h1{
+  font-size:28px;
+  font-weight:700;
+  color:var(--forge-color);
+  letter-spacing:2px;
+  font-family:'Cinzel', serif;
+  animation:forgeGlow 3s ease-in-out infinite alternate;
+  margin-bottom:5px;
+}
+@keyframes forgeGlow{
+  0%{transform:scale(1) rotate(0deg); text-shadow:0 0 15px var(--forge-color);}
+  50%{transform:scale(1.05) rotate(2deg); text-shadow:0 0 30px var(--forge-color);}
+  100%{transform:scale(1) rotate(-2deg); text-shadow:0 0 15px var(--forge-color);}
+}
+nav .top-panel{
+  display:flex;
+  gap:15px;
+  flex-wrap:wrap;
+}
+nav .top-panel button{
+  padding:8px 16px;
+  border-radius:8px;
+  border:none;
+  background:rgba(255,255,255,0.08);
+  color:var(--text);
+  font-weight:600;
+  transition:all 0.3s;
+  cursor:pointer;
+}
+nav .top-panel button:hover{
+  background:var(--accent);
+  color:#000;
+  transform:translateY(-2px);
+}
 
-  button.yes {
-    background: #ff4d6d;
-    color: #fff;
-    left: 50%;
-    top: 50px;
-    transform: translateX(-50%);
-  }
+/* CONTAINER */
+.container{
+  min-height:calc(100vh - 70px);
+  width:100%;
+  padding:20px 40px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+}
 
-  button.no {
-    background: #999;
-    color: #fff;
-    left: 50%;
-    top: 120px;
-    transform: translateX(-50%);
-  }
+/* PANELS */
+.panel{
+  display:none;
+  width:100%;
+  max-width:1000px;
+  background:var(--panel-bg);
+  border-radius:20px;
+  padding:30px;
+  margin-top:20px;
+  box-shadow:0 15px 50px rgba(0,0,0,0.6);
+}
+.panel.active{display:block}
+h2{color:var(--accent); font-family:'Cinzel', serif; font-size:26px;}
 
-  .fun-area {
-    margin-top: 250px;
-    min-height: 150px;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-    overflow-y: auto;
-  }
+input,select,button{
+  padding:10px;
+  margin-top:10px;
+  background:#020617;
+  color:var(--text);
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:6px;
+  font-size:16px;
+}
 
-  .fun-item {
-    margin: 10px 0;
-    animation: fadeIn 0.5s;
-  }
+/* BG GRID */
+.bg-grid{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:20px;
+  justify-content:center;
+}
+.bg-grid img{
+  width:130px;
+  height:90px;
+  object-fit:cover;
+  border-radius:8px;
+  cursor:pointer;
+  border:2px solid transparent;
+  transition:all 0.3s;
+}
+.bg-grid img:hover{border-color:var(--accent);}
 
-  @keyframes fadeIn {
-    from {opacity: 0; transform: translateY(-10px);}
-    to {opacity: 1; transform: translateY(0);}
-  }
+/* MUSIC BUTTONS */
+#musicList button{
+  display:block;
+  width:100%;
+  margin:5px 0;
+  text-align:left;
+}
 
-  .celebration {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(255, 230, 230, 0.95);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 100;
-    animation: pop 0.5s ease-out;
-  }
-
-  .celebration h1 {
-    color: #e60073;
-    font-size: 3em;
-    margin-bottom: 20px;
-  }
-
-  @keyframes pop {
-    0% { transform: scale(0.5); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-  }
-
-  .celebration img {
-    width: 300px;
-    border-radius: 15px;
-  }
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{padding:10px 20px;}
+  nav h1{font-size:24px;}
+  .top-panel button{padding:6px 12px;font-size:14px;}
+  .container{padding:15px 20px;}
+  .panel{padding:20px;}
+}
+@media(max-width:480px){
+  nav{flex-direction:column; align-items:flex-start;}
+  .top-panel{justify-content:flex-start;}
+}
 </style>
 </head>
 <body>
 
+<div class="forge-embers" id="embers"></div>
+
+<nav>
+  <h1 id="forgeName">FORGE</h1>
+  <div class="top-panel">
+    <button onclick="showPanel('assistant')">Assistant</button>
+    <button onclick="showPanel('music')">Music</button>
+    <button onclick="showPanel('alarm')">Alarm</button>
+    <button onclick="showPanel('customize')">Customize</button>
+    <button onclick="showPanel('background')">Background</button>
+  </div>
+</nav>
+
 <div class="container">
-  <h1>Will you go out with me? ❤️</h1>
-  <div class="buttons">
-    <button class="yes">Yes</button>
-    <button class="no">No</button>
-  </div>
-  <div class="fun-area">
-    <!-- GIFs and statements appear here -->
-  </div>
-</div>
+  <section id="assistant" class="panel active">
+    <h2>FORGE Assistant</h2>
+    <p>Forge does not comfort you. It sharpens you.</p>
+  </section>
 
-<script>
-const noBtn = document.querySelector('.no');
-const funArea = document.querySelector('.fun-area');
-const yesBtn = document.querySelector('.yes');
+  <section id="music" class="panel">
+    <h2>Music</h2>
+    <input id="musicSearch" placeholder="Search songs">
+    <button onclick="searchMusic()">Search</button>
+    <div id="musicList" style="margin-top:15px;"></div>
+    <audio id="localPlayer" controls style="width:100%; margin-top:15px;"></audio>
+  </section>
 
-const statements = [
-  "Oops! Try again 😜",
-  "Come on, don't be shy!",
-  "Haha, not today 😆",
-  "I knew you'd say that 😂",
-  "Just kidding! 😎",
-  "Nice try! 😏",
-  "Better luck next time 🤣"
-];
+  <section id="alarm" class="panel">
+    <h2>Alarm</h2>
+    <input type="time" id="alarmTime">
+    <select id="alarmSound">
+      <option value="alarm1.mp3">Forge Pulse</option>
+      <option value="alarm2.mp3">Classic</option>
+    </select>
+    <button onclick="setAlarm()">Set Alarm</button>
+    <audio id="alarmAudio"></audio>
+  </section>
 
-const gifs = [
-  "https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif",
-  "https://media.giphy.com/media/3ohc0Wb0zqP0P6wV9a/giphy.gif",
-  "https://media.giphy.com/media/26AHONQ79FdWZhAI0/giphy.gif",
-  "https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif"
-];
-
-let moveInterval = null;
-
-// Request browser notification permission
-if ("Notification" in window) {
-  Notification.requestPermission();
-}
-
-// Move "No" button randomly
-function moveNoButton() {
-  const maxX = window.innerWidth - noBtn.offsetWidth;
-  const maxY = window.innerHeight - noBtn.offsetHeight - 100;
-  const randomX = Math.random() * maxX;
-  const randomY = Math.random() * maxY;
-  noBtn.style.left = `${randomX}px`;
-  noBtn.style.top = `${randomY}px`;
-}
-
-// No button click: add funny GIF + start continuous movement
-noBtn.addEventListener('click', () => {
-  const randomStatement = statements[Math.floor(Math.random() * statements.length)];
-  const randomGif = gifs[Math.floor(Math.random() * gifs.length)];
-
-  const div = document.createElement('div');
-  div.classList.add('fun-item');
-  div.innerHTML = `<p>${randomStatement}</p><img src="${randomGif}" width="200">`;
-  funArea.appendChild(div);
-  funArea.scrollTop = funArea.scrollHeight;
-
-  // Start continuous movement if not already moving
-  if (!moveInterval) {
-    moveInterval = setInterval(moveNoButton, 500); // move every 0.5s
-  }
-});
-
-// Optional: dodge on hover
-noBtn.addEventListener('mouseenter', moveNoButton);
-
-// Yes button click: stop No movement, show overlay + notification
-yesBtn.addEventListener('click', () => {
-  if (moveInterval) {
-    clearInterval(moveInterval);
-    moveInterval = null;
-  }
-
-  const celebration = document.createElement('div');
-  celebration.classList.add('celebration');
-  celebration.innerHTML = `
-    <h1>She said YES! ❤️</h1>
-    <img src="https://media.giphy.com/media/111ebonMs90YLu/giphy.gif">
-  `;
-  document.body.appendChild(celebration);
-
-  setTimeout(() => {
-    celebration.remove();
-  }, 5000);
-
-  // Browser notification
-  if (Notification.permission === "granted") {
-    new Notification("Valentine Alert!", {
-      body: "She clicked YES! ❤️",
-      icon: "https://media.giphy.com/media/111ebonMs90YLu/giphy.gif"
-    });
-  } else {
-    alert("She clicked YES! ❤️"); // fallback
-  }
-});
-</script>
-
-</body>
-</html>
+  <section id="customize" class="panel">
+    <h2>Customize</h2>
+    <label>Nav Color: <input type="color" id="navColor"></label>
+    <label>
