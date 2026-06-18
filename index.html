@@ -2,276 +2,1182 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>FORGE PA</title>
+<title>FORGE PA | AI Productivity System</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+
 :root{
-  --nav-bg:#0b1220;
-  --accent:#f59e0b;
-  --panel-bg:rgba(15,23,42,.75);
-  --text:#e5e7eb;
+--bg:#020617;
+--panel:rgba(15,23,42,.75);
+--nav:#0b1220;
+--accent:#f59e0b;
+--text:#e5e7eb;
+--danger:#ef4444;
 }
 
-*{box-sizing:border-box;font-family:Inter,system-ui,sans-serif}
+*{
+box-sizing:border-box;
+font-family:Inter,system-ui,Arial,sans-serif;
+}
 
 body{
-  margin:0;
-  min-height:100vh;
-  color:var(--text);
-  background-size:cover;
-  background-position:center;
+margin:0;
+min-height:100vh;
+color:var(--text);
+background:
+linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.65)),
+url("https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/94b8a6aaad0fe142d54940387a077d38a060fba1/steel-furnace.jpg");
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+overflow-x:hidden;
 }
 
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  backdrop-filter:blur(10px);
-  z-index:-1;
+body:before{
+content:"";
+position:fixed;
+inset:0;
+backdrop-filter:blur(8px);
+z-index:-1;
 }
 
-/* 🔥 FORGE EMBERS */
-.forge-embers{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:0;
+
+/* EMBERS */
+
+#embers{
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:0;
 }
+
 .ember{
-  position:absolute;
-  bottom:-20px;
-  width:4px;
-  height:4px;
-  background:#f59e0b;
-  border-radius:50%;
-  opacity:.8;
-  animation:rise linear infinite;
+position:absolute;
+bottom:-20px;
+width:5px;
+height:5px;
+background:var(--accent);
+border-radius:50%;
+box-shadow:0 0 15px var(--accent);
+animation:rise linear infinite;
 }
+
 @keyframes rise{
-  from{transform:translateY(0) scale(1);opacity:1}
-  to{transform:translateY(-120vh) scale(.2);opacity:0}
+
+0%{
+transform:translateY(0);
+opacity:1;
 }
+
+100%{
+transform:translateY(-120vh);
+opacity:0;
+}
+
+}
+
+
+/* NAVIGATION */
 
 nav{
-  height:64px;
-  background:var(--nav-bg);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 24px;
-  border-bottom:1px solid rgba(255,255,255,.05);
-  z-index:2;
+
+height:70px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 25px;
+background:var(--nav);
+border-bottom:1px solid rgba(255,255,255,.08);
+position:sticky;
+top:0;
+z-index:10;
+
 }
 
-nav h1{
-  color:var(--accent);
-  letter-spacing:3px;
-  font-size:18px;
+.logo{
+
+font-size:22px;
+letter-spacing:5px;
+font-weight:900;
+color:var(--accent);
+
 }
+
+.nav-controls input{
+
+width:35px;
+height:35px;
+border:none;
+cursor:pointer;
+
+}
+
+
+
+/* LAYOUT */
 
 .container{
-  display:flex;
-  height:calc(100vh - 64px);
+
+display:flex;
+min-height:calc(100vh - 70px);
+
+}
+
+
+aside{
+
+width:240px;
+background:rgba(0,0,0,.45);
+padding:20px;
+border-right:1px solid rgba(255,255,255,.08);
+
+}
+
+
+aside button{
+
+width:100%;
+padding:14px;
+margin-bottom:12px;
+background:transparent;
+border:1px solid rgba(255,255,255,.15);
+color:white;
+cursor:pointer;
+border-radius:10px;
+transition:.3s;
+
+}
+
+aside button:hover{
+
+background:var(--accent);
+color:#000;
+transform:translateX(5px);
+
+}
+
+
+
+main{
+
+flex:1;
+padding:30px;
+
+}
+
+
+.panel{
+
+display:none;
+background:var(--panel);
+border-radius:20px;
+padding:30px;
+max-width:1000px;
+margin:auto;
+box-shadow:0 20px 50px rgba(0,0,0,.4);
+animation:fade .4s;
+
+}
+
+.panel.active{
+
+display:block;
+
+}
+
+
+@keyframes fade{
+
+from{
+opacity:0;
+transform:translateY(20px);
+}
+
+to{
+opacity:1;
+transform:none;
+}
+
+}
+
+
+h2{
+
+color:var(--accent);
+
+}
+
+
+.card{
+
+background:rgba(255,255,255,.05);
+padding:20px;
+border-radius:15px;
+margin:15px 0;
+
+}
+
+
+
+button,
+input,
+select{
+
+padding:12px;
+border-radius:8px;
+border:1px solid rgba(255,255,255,.15);
+background:#020617;
+color:white;
+
+}
+
+
+button{
+
+cursor:pointer;
+
+}
+
+
+button:hover{
+
+border-color:var(--accent);
+
+}
+
+
+
+/* DASHBOARD */
+
+.stats{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:15px;
+
+}
+
+
+.stat{
+
+background:rgba(255,255,255,.06);
+padding:20px;
+border-radius:15px;
+text-align:center;
+
+}
+
+
+.number{
+
+font-size:30px;
+color:var(--accent);
+font-weight:bold;
+
+}
+
+
+
+/* HABITS */
+
+.habit{
+
+display:flex;
+justify-content:space-between;
+padding:12px;
+margin:10px 0;
+background:rgba(255,255,255,.05);
+border-radius:10px;
+
+}
+
+
+.progress{
+
+height:12px;
+background:#111827;
+border-radius:20px;
+overflow:hidden;
+
+}
+
+
+.progress div{
+
+height:100%;
+width:0;
+background:var(--accent);
+transition:.5s;
+
+}
+
+
+
+/* MUSIC */
+
+audio{
+
+width:100%;
+margin-top:15px;
+
+}
+
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+.container{
+flex-direction:column;
 }
 
 aside{
-  width:220px;
-  background:rgba(0,0,0,.4);
-  padding:16px;
+
+width:100%;
+display:flex;
+overflow:auto;
+
 }
 
 aside button{
-  width:100%;
-  padding:12px;
-  margin-bottom:10px;
-  background:none;
-  color:var(--text);
-  border:1px solid rgba(255,255,255,.1);
-  cursor:pointer;
+
+min-width:140px;
+
 }
-aside button:hover{border-color:var(--accent)}
 
 main{
-  flex:1;
-  padding:32px;
+
+padding:15px;
+
 }
 
-.panel{
-  display:none;
-  max-width:900px;
-  margin:auto;
-  background:var(--panel-bg);
-  border-radius:14px;
-  padding:24px;
-}
-.panel.active{display:block}
-
-h2{margin-top:0;color:var(--accent)}
-
-input,select,button{
-  padding:10px;
-  margin-top:10px;
-  background:#020617;
-  color:var(--text);
-  border:1px solid rgba(255,255,255,.1);
 }
 
-.bg-grid img{
-  width:120px;
-  height:80px;
-  object-fit:cover;
-  border-radius:6px;
-  cursor:pointer;
-  border:2px solid transparent;
-}
-.bg-grid img:hover{border-color:var(--accent)}
+
 </style>
 </head>
 
 <body>
 
-<!-- 🔥 EMBERS -->
-<div class="forge-embers" id="embers"></div>
+
+<div id="embers"></div>
+
 
 <nav>
-  <h1>FORGE</h1>
-  <div>
-    Nav <input type="color" id="navColor">
-    Accent <input type="color" id="accentColor">
-  </div>
+
+<div class="logo">
+FORGE
+</div>
+
+<div class="nav-controls">
+
+<input type="color" id="accentPicker">
+
+</div>
+
 </nav>
+
+
 
 <div class="container">
 
+
 <aside>
-  <button onclick="showPanel('assistant')">Assistant</button>
-  <button onclick="showPanel('music')">Music</button>
-  <button onclick="showPanel('alarm')">Alarm</button>
-  <button onclick="showPanel('background')">Background</button>
+
+<button onclick="showPanel('home')">
+Dashboard
+</button>
+
+<button onclick="showPanel('assistant')">
+AI Assistant
+</button>
+
+<button onclick="showPanel('habits')">
+Habits
+</button>
+
+<button onclick="showPanel('music')">
+Music
+</button>
+
+<button onclick="showPanel('alarm')">
+Alarm
+</button>
+
+<button onclick="showPanel('games')">
+Games
+</button>
+
+<button onclick="showPanel('settings')">
+Settings
+</button>
+
 </aside>
+
 
 <main>
 
-<section id="assistant" class="panel active">
-  <h2>FORGE Assistant</h2>
-  <p>Forge does not comfort you. It sharpens you.</p>
-</section>
 
-<section id="music" class="panel">
-  <h2>Music</h2>
+<section id="home" class="panel active">
 
-  <input id="musicSearch" placeholder="Search music (e.g. Rema)">
-  <button onclick="searchMusic()">Search</button>
+<h2>
+FORGE COMMAND CENTER
+</h2>
 
-  <iframe id="spotifyPlayer"
-    width="100%" height="380"
-    frameborder="0"
-    allow="autoplay; encrypted-media">
-  </iframe>
+<p>
+A personal system designed to improve focus, discipline and productivity.
+</p>
 
-  <h3>Local Music</h3>
-  <input type="file" accept="audio/*" id="localMusic">
-  <audio id="localPlayer" controls></audio>
-</section>
 
-<section id="alarm" class="panel">
-  <h2>Alarm</h2>
-  <input type="time" id="alarmTime">
-  <select id="alarmSound">
-    <option value="alarm1.mp3">Forge Pulse</option>
-    <option value="alarm2.mp3">Classic</option>
-  </select>
-  <button onclick="setAlarm()">Set Alarm</button>
-  <audio id="alarmAudio"></audio>
-</section>
+<div class="stats">
 
-<section id="background" class="panel">
-  <h2>Backgrounds</h2>
-  <div class="bg-grid">
-    <img src="https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/94b8a6aaad0fe142d54940387a077d38a060fba1/steel-furnace.jpg" onclick="setBg(this.src)">
-  </div>
-</section>
-
-</main>
+<div class="stat">
+<div class="number" id="habitCount">
+0
+</div>
+Habits Completed
 </div>
 
+
+<div class="stat">
+
+<div class="number">
+24/7
+</div>
+
+System Status
+
+</div>
+
+
+<div class="stat">
+
+<div class="number">
+FORGE
+</div>
+
+Mode
+
+</div>
+
+</div>
+
+
+</section>
+
+
+
+<section id="assistant" class="panel">
+
+<h2>
+FORGE Assistant
+</h2>
+
+<p>
+Forge does not comfort you. It sharpens you.
+</p>
+
+<div class="card">
+
+AI assistant module ready for future AI connection.
+
+</div>
+
+</section>
+
+
+
+<section id="habits" class="panel">
+
+<h2>
+Habit Tracker
+</h2>
+
+<input id="habitInput" placeholder="Add new habit">
+
+<button onclick="addHabit()">
+Add
+</button>
+
+
+<div id="habitList"></div>
+
+
+<div class="progress">
+
+<div id="habitProgress"></div>
+
+</div>
+
+
+  </section>
+  <section id="music" class="panel">
+
+<h2>
+FORGE AUDIO
+</h2>
+
+<p>
+Focus sounds and personal music system.
+</p>
+
+
+<div class="card">
+
+<input id="musicFile" type="file" accept="audio/*">
+
+<audio id="musicPlayer" controls></audio>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+Focus Modes
+</h3>
+
+<button onclick="playSound('focus')">
+Focus
+</button>
+
+<button onclick="playSound('rain')">
+Rain
+</button>
+
+<button onclick="playSound('engine')">
+Flight Mode
+</button>
+
+
+<audio id="focusAudio"></audio>
+
+</div>
+
+
+</section>
+
+
+
+<section id="alarm" class="panel">
+
+<h2>
+FORGE ALARM
+</h2>
+
+
+<input type="time" id="alarmTime">
+
+
+<select id="alarmSound">
+
+<option value="pulse">
+Forge Pulse
+</option>
+
+<option value="classic">
+Classic Alarm
+</option>
+
+</select>
+
+
+<button onclick="setAlarm()">
+Activate Alarm
+</button>
+
+
+<p id="alarmStatus"></p>
+
+
+</section>
+
+
+
+
+<section id="games" class="panel">
+
+<h2>
+FORGE ARENA
+</h2>
+
+
+<div class="card">
+
+<h3>
+Reaction Test
+</h3>
+
+<button onclick="reactionGame()">
+Start Challenge
+</button>
+
+<p id="reactionResult"></p>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>
+Memory Challenge
+</h3>
+
+<button onclick="memoryGame()">
+Play
+</button>
+
+<p id="memoryResult"></p>
+
+</div>
+
+
+</section>
+
+
+
+
+<section id="settings" class="panel">
+
+<h2>
+System Settings
+</h2>
+
+
+<div class="card">
+
+Change Accent Color:
+
+<input type="color" id="accentPicker2">
+
+</div>
+
+
+<div class="card">
+
+<button onclick="resetSystem()">
+Reset FORGE
+</button>
+
+</div>
+
+
+</section>
+
+
+
+</main>
+
+</div>
+
+
+
 <script>
-/* 🔥 DEFAULT BACKGROUND */
-const DEFAULT_BG =
-"https://raw.githubusercontent.com/FORGE-PA/Forgepa.github.io/94b8a6aaad0fe142d54940387a077d38a060fba1/steel-furnace.jpg";
 
-document.body.style.backgroundImage =
-`url(${localStorage.getItem("bg")||DEFAULT_BG})`;
 
-/* PANELS */
+/* PANEL SYSTEM */
+
+
 function showPanel(id){
-  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
+
+document.querySelectorAll(".panel")
+.forEach(panel=>panel.classList.remove("active"));
+
+
+document.getElementById(id)
+.classList.add("active");
+
 }
 
-/* BACKGROUND */
-function setBg(url){
-  document.body.style.backgroundImage=`url(${url})`;
-  localStorage.setItem("bg",url);
+
+
+
+/* EMBER GENERATOR */
+
+
+const emberBox=document.getElementById("embers");
+
+
+for(let i=0;i<60;i++){
+
+let ember=document.createElement("div");
+
+ember.className="ember";
+
+ember.style.left=Math.random()*100+"vw";
+
+ember.style.animationDuration=
+(4+Math.random()*8)+"s";
+
+
+ember.style.animationDelay=
+Math.random()*5+"s";
+
+
+emberBox.appendChild(ember);
+
 }
 
-/* MUSIC */
-function searchMusic(){
-  const q=document.getElementById("musicSearch").value.trim();
-  if(!q)return;
-  document.getElementById("spotifyPlayer").src=
-  `https://open.spotify.com/embed/search/${encodeURIComponent(q)}`;
+
+
+
+/* HABIT SYSTEM */
+
+
+let habits=
+JSON.parse(localStorage.getItem("habits"))
+||[];
+
+
+function saveHabits(){
+
+localStorage.setItem(
+"habits",
+JSON.stringify(habits)
+);
+
 }
 
-localMusic.onchange=e=>{
-  const f=e.target.files[0];
-  if(!f)return;
-  localPlayer.src=URL.createObjectURL(f);
-  localPlayer.play();
+
+
+function addHabit(){
+
+let input=
+document.getElementById("habitInput");
+
+
+if(!input.value)return;
+
+
+habits.push({
+
+name:input.value,
+done:false
+
+});
+
+
+input.value="";
+
+saveHabits();
+
+displayHabits();
+
+}
+
+
+
+function toggleHabit(index){
+
+habits[index].done=
+!habits[index].done;
+
+
+saveHabits();
+
+displayHabits();
+
+}
+
+
+
+function displayHabits(){
+
+
+let box=
+document.getElementById("habitList");
+
+
+box.innerHTML="";
+
+
+let completed=0;
+
+
+
+habits.forEach((h,i)=>{
+
+
+if(h.done)
+completed++;
+
+
+let div=document.createElement("div");
+
+
+div.className="habit";
+
+
+div.innerHTML=`
+
+<span>
+${h.name}
+</span>
+
+
+<button onclick="toggleHabit(${i})">
+
+${h.done?"Completed":"Done"}
+
+</button>
+
+`;
+
+
+box.appendChild(div);
+
+
+});
+
+
+
+document.getElementById("habitCount")
+.innerHTML=completed;
+
+
+
+let percent=
+habits.length?
+(completed/habits.length)*100:0;
+
+
+document.getElementById("habitProgress")
+.style.width=percent+"%";
+
+
+}
+
+
+displayHabits();
+
+
+
+
+
+/* MUSIC UPLOAD */
+
+
+musicFile.onchange=function(e){
+
+let file=e.target.files[0];
+
+
+if(file){
+
+musicPlayer.src=
+URL.createObjectURL(file);
+
+
+musicPlayer.play();
+
+}
+
 };
+
+
+
+
+
+/* SOUND SYSTEM */
+
+
+function playSound(type){
+
+
+let audio=
+document.getElementById("focusAudio");
+
+
+let sounds={
+
+
+focus:
+"https://cdn.pixabay.com/audio/2022/10/25/audio_5b6c7e6f9e.mp3",
+
+
+rain:
+"https://cdn.pixabay.com/audio/2022/02/23/audio_8c8b7e7f55.mp3",
+
+
+engine:
+"https://cdn.pixabay.com/audio/2021/08/04/audio_12b0c4f6e6.mp3"
+
+
+};
+
+
+audio.src=sounds[type];
+
+audio.play();
+
+
+}
+
+
+
+
 
 /* ALARM */
-let alarm=null;
-function setAlarm(){alarm=alarmTime.value}
+
+
+let currentAlarm=null;
+
+
+
+function setAlarm(){
+
+currentAlarm=
+document.getElementById("alarmTime").value;
+
+
+document.getElementById("alarmStatus")
+.innerHTML=
+"Alarm Activated";
+
+
+}
+
+
+
 
 setInterval(()=>{
-  if(!alarm)return;
-  const t=new Date().toTimeString().slice(0,5);
-  if(t===alarm){
-    alarmAudio.src=alarmSound.value;
-    alarmAudio.play();
-    alert("FORGE: Execute.");
-    alarm=null;
-  }
+
+
+if(!currentAlarm)
+return;
+
+
+
+let now=
+new Date()
+.toTimeString()
+.slice(0,5);
+
+
+
+if(now===currentAlarm){
+
+
+alert("FORGE: Execute.");
+
+
+currentAlarm=null;
+
+
+}
+
+
+
 },1000);
 
-/* COLORS */
-navColor.oninput=e=>{
-  document.documentElement.style.setProperty("--nav-bg",e.target.value);
-  localStorage.setItem("nav",e.target.value);
-};
-accentColor.oninput=e=>{
-  document.documentElement.style.setProperty("--accent",e.target.value);
-  localStorage.setItem("accent",e.target.value);
-};
-if(localStorage.getItem("nav"))
-document.documentElement.style.setProperty("--nav-bg",localStorage.getItem("nav"));
-if(localStorage.getItem("accent"))
-document.documentElement.style.setProperty("--accent",localStorage.getItem("accent"));
 
-/* 🔥 EMBERS GENERATION */
-const embers=document.getElementById("embers");
-for(let i=0;i<40;i++){
-  const e=document.createElement("div");
-  e.className="ember";
-  e.style.left=Math.random()*100+"vw";
-  e.style.animationDuration=5+Math.random()*5+"s";
-  e.style.animationDelay=Math.random()*5+"s";
-  embers.appendChild(e);
+
+
+
+/* REACTION GAME */
+
+
+function reactionGame(){
+
+
+let start=
+Date.now();
+
+
+document.getElementById("reactionResult")
+.innerHTML=
+"Wait...";
+
+
+setTimeout(()=>{
+
+
+let time=
+Date.now()-start;
+
+
+document.getElementById("reactionResult")
+.innerHTML=
+"Reaction: "+time+"ms";
+
+
+},Math.random()*3000+1000);
+  
+
+
 }
+  /* MEMORY GAME */
+
+let memoryNumber;
+
+
+function memoryGame(){
+
+memoryNumber=
+Math.floor(Math.random()*900)+100;
+
+
+alert(
+"Remember this number: "+memoryNumber
+);
+
+
+setTimeout(()=>{
+
+
+let answer=
+prompt("Enter the number");
+
+
+if(answer==memoryNumber){
+
+document.getElementById("memoryResult")
+.innerHTML=
+"Correct. Memory verified.";
+
+}else{
+
+document.getElementById("memoryResult")
+.innerHTML=
+"Incorrect. Try again.";
+
+}
+
+
+},4000);
+
+
+}
+
+
+
+
+
+/* COLOR SYSTEM */
+
+
+function changeAccent(color){
+
+document.documentElement
+.style.setProperty(
+"--accent",
+color
+);
+
+
+localStorage.setItem(
+"forgeAccent",
+color
+);
+
+}
+
+
+
+accentPicker.oninput=function(){
+
+changeAccent(this.value);
+
+};
+
+
+
+accentPicker2.oninput=function(){
+
+changeAccent(this.value);
+
+};
+
+
+
+let savedAccent=
+localStorage.getItem("forgeAccent");
+
+
+if(savedAccent){
+
+changeAccent(savedAccent);
+
+accentPicker.value=savedAccent;
+
+accentPicker2.value=savedAccent;
+
+}
+
+
+
+
+
+/* RESET */
+
+
+function resetSystem(){
+
+
+if(confirm("Reset all FORGE data?")){
+
+
+localStorage.clear();
+
+
+location.reload();
+
+
+}
+
+
+}
+
+
+
+
+
+/* KEYBOARD SHORTCUTS */
+
+
+document.addEventListener(
+"keydown",
+function(e){
+
+
+if(e.key==="1")
+showPanel("home");
+
+
+if(e.key==="2")
+showPanel("assistant");
+
+
+if(e.key==="3")
+showPanel("habits");
+
+
+if(e.key==="4")
+showPanel("music");
+
+
+if(e.key==="5")
+showPanel("games");
+
+
+});
+
+
+
+
+/* SERVICE READY MESSAGE */
+
+
+console.log(
+"FORGE PA v2 initialized."
+);
+
+
 </script>
 
+
 </body>
+
 </html>
